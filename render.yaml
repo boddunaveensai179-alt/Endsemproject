@@ -2,7 +2,7 @@ services:
   # 1. Spring Boot Backend
   - type: web
     name: library-spring-backend
-    env: docker
+    runtime: docker
     dockerfilePath: library/Dockerfile
     dockerContext: library
     plan: free
@@ -21,7 +21,7 @@ services:
   # 2. Node.js Backend
   - type: web
     name: library-node-backend
-    env: node
+    runtime: node
     plan: free
     buildCommand: npm install
     startCommand: node server.js
@@ -33,7 +33,7 @@ services:
   # 3. FastAPI Gateway
   - type: web
     name: library-fastapi-gateway
-    env: python
+    runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
@@ -45,11 +45,10 @@ services:
         sync: false
 
   # 4. React Frontend
-  - type: web
+  - type: static
     name: library-react-frontend
-    env: static
     buildCommand: npm install && npm run build
-    staticPublishPath: build
+    publishPath: build
     rootDir: frontend
     envVars:
       - key: REACT_APP_API_URL
