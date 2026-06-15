@@ -44,12 +44,11 @@ services:
         sync: false
 
   # 4. React Frontend
-  - type: web
+  - type: static
     name: library-react-frontend
-    env: static
     plan: free
     buildCommand: npm install && npm run build
-    publishPath: build
+    publishDir: build
     rootDir: frontend
     envVars:
       - key: REACT_APP_API_URL
