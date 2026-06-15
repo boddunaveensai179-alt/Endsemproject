@@ -1,0 +1,56 @@
+services:
+  # 1. Spring Boot Backend
+  - type: web
+    name: library-spring-backend
+    env: docker
+    dockerfilePath: library/Dockerfile
+    plan: free
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DDL_AUTO
+        value: update
+      - key: JWT_SECRET
+        value: library-management-system-super-secret-key-change-before-production
+
+  # 2. Node.js Backend
+  - type: web
+    name: library-node-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    rootDir: node-backend
+    envVars:
+      - key: MONGO_URI
+        sync: false
+
+  # 3. FastAPI Gateway
+  - type: web
+    name: library-fastapi-gateway
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    rootDir: gateway
+    envVars:
+      - key: SPRING_BOOT_URL
+        sync: false
+      - key: NODE_BACKEND_URL
+        sync: false
+
+  # 4. React Frontend
+  - type: web
+    name: library-react-frontend
+    env: static
+    plan: free
+    buildCommand: npm install && npm run build
+    publishPath: build
+    rootDir: frontend
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false

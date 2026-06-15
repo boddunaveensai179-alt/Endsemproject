@@ -1,0 +1,23 @@
+spring.application.name=library
+
+# ===== Database =====
+spring.datasource.url=jdbc:postgresql://dpg-d8nruburnols73e4f7r0-a.oregon-postgres.render.com:5432/digital_library
+spring.datasource.username=postgres
+spring.datasource.password=admin123
+
+# ===== JPA =====
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# ===== Server =====
+server.port=8080
+
+# ===== JWT =====
+jwt.secret=LibraryAppSuperSecretKey2024!@#$
+jwt.expiration=86400000
+
+# ===== Swagger / SpringDoc =====
+springdoc.api-docs.path=/v3/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.operationsSorter=method
