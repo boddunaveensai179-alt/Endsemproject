@@ -54,3 +54,5 @@ services:
     envVars:
       - key: REACT_APP_API_URL
         sync: false
+      - key: CI
+        value: "false"
