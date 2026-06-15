@@ -4,6 +4,7 @@ services:
     name: library-spring-backend
     env: docker
     dockerfilePath: library/Dockerfile
+    dockerContext: library
     plan: free
     envVars:
       - key: DB_URL
