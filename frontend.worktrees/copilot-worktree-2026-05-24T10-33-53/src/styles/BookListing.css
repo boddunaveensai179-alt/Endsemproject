@@ -1,0 +1,156 @@
+/* Book Listing Page Styles */
+
+.booklisting-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.page-title {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: var(--dark-gray);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.error-banner {
+  background-color: #fadbd8;
+  color: var(--error-red);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--error-red);
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 1.1rem;
+  color: var(--dark-gray);
+}
+
+.empty-state {
+  background-color: var(--white);
+  padding: 3rem;
+  border-radius: 8px;
+  text-align: center;
+  color: var(--dark-gray);
+}
+
+.table-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.books-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.books-table thead {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.books-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.books-table tbody tr {
+  border-bottom: 1px solid var(--light-gray);
+  transition: background-color 0.3s;
+}
+
+.books-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.books-table td {
+  padding: 1rem;
+  color: var(--primary-blue);
+}
+
+.title-cell {
+  font-weight: 500;
+  max-width: 250px;
+  word-break: break-word;
+}
+
+.category-badge {
+  background-color: #e8f4f8;
+  color: var(--light-blue);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-badge.available {
+  background-color: #d5f4e6;
+  color: var(--success-green);
+}
+
+.status-badge.unavailable {
+  background-color: #fadbd8;
+  color: var(--error-red);
+}
+
+.delete-btn {
+  background-color: var(--error-red);
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+  .booklisting-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .books-table {
+    font-size: 0.9rem;
+  }
+
+  .books-table th,
+  .books-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .title-cell {
+    max-width: 150px;
+  }
+
+  .delete-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}

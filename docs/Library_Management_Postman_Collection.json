@@ -1,0 +1,268 @@
+{
+  "info": {
+    "name": "Library Management System - Gateway APIs",
+    "_postman_id": "a1511f6e-4b41-4e54-9c7c-library-system",
+    "description": "Postman collection for the upgraded Library Management System. All requests target the FastAPI gateway on port 8000.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "gateway_url", "value": "http://localhost:8000" },
+    { "key": "token", "value": "" },
+    { "key": "bookId", "value": "1" },
+    { "key": "borrowId", "value": "1" },
+    { "key": "mongoId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway_url}}/health"
+      }
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Review User\",\n  \"email\": \"review.user@library.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": "{{gateway_url}}/auth/register"
+          }
+        },
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) { pm.collectionVariables.set('token', json.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@library.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": "{{gateway_url}}/auth/login"
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) { pm.collectionVariables.set('token', json.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@library.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": "{{gateway_url}}/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Get Books",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway_url}}/books"
+          }
+        },
+        {
+          "name": "Get Book By Id",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway_url}}/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Add Book",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Distributed Systems\",\n  \"author\": \"Martin Kleppmann\",\n  \"category\": \"Technology\",\n  \"price\": 899,\n  \"totalCopies\": 3,\n  \"availableCount\": 3\n}"
+            },
+            "url": "{{gateway_url}}/books"
+          }
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Distributed Systems - Updated\",\n  \"availableCount\": 2,\n  \"totalCopies\": 3\n}"
+            },
+            "url": "{{gateway_url}}/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway_url}}/books/{{bookId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrows",
+      "item": [
+        {
+          "name": "Get Borrows",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway_url}}/borrows"
+          }
+        },
+        {
+          "name": "Create Borrow",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": {{bookId}}\n}"
+            },
+            "url": "{{gateway_url}}/borrows"
+          }
+        },
+        {
+          "name": "Return Borrow",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"RETURNED\"\n}"
+            },
+            "url": "{{gateway_url}}/borrows/{{borrowId}}"
+          }
+        },
+        {
+          "name": "Delete Borrow",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway_url}}/borrows/{{borrowId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "MongoDB Services",
+      "item": [
+        {
+          "name": "Create Search",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"1\",\n  \"keyword\": \"clean code\"\n}" },
+            "url": "{{gateway_url}}/search"
+          }
+        },
+        {
+          "name": "Get Searches",
+          "request": {
+            "method": "GET",
+            "url": "{{gateway_url}}/search?userId=1"
+          }
+        },
+        {
+          "name": "Create Activity",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"1\",\n  \"action\": \"SEARCH_BOOK\",\n  \"description\": \"Searched for clean code\"\n}" },
+            "url": "{{gateway_url}}/activity"
+          }
+        },
+        {
+          "name": "Get Activities",
+          "request": {
+            "method": "GET",
+            "url": "{{gateway_url}}/activity?userId=1"
+          }
+        },
+        {
+          "name": "Create Recommendation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"1\",\n  \"bookId\": \"1\",\n  \"reason\": \"Recommended because you borrowed a Programming book\"\n}" },
+            "url": "{{gateway_url}}/recommendations"
+          }
+        },
+        {
+          "name": "Get Recommendations",
+          "request": {
+            "method": "GET",
+            "url": "{{gateway_url}}/recommendations?userId=1"
+          }
+        },
+        {
+          "name": "Update Mongo Record",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"keyword\": \"updated keyword\"\n}" },
+            "url": "{{gateway_url}}/search/{{mongoId}}"
+          }
+        },
+        {
+          "name": "Delete Mongo Record",
+          "request": {
+            "method": "DELETE",
+            "url": "{{gateway_url}}/search/{{mongoId}}"
+          }
+        }
+      ]
+    }
+  ]
+}
