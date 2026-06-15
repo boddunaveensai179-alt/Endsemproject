@@ -49,7 +49,7 @@ services:
     env: static
     plan: free
     buildCommand: npm install && npm run build
-    publishDir: build
+    staticPublishPath: build
     rootDir: frontend
     envVars:
       - key: REACT_APP_API_URL
