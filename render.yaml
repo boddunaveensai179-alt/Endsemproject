@@ -47,7 +47,6 @@ services:
   - type: web
     name: library-react-frontend
     env: static
-    plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: build
     rootDir: frontend
